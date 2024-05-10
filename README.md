@@ -1,4 +1,4 @@
-# Fire-Go: Setting up Firebase authentication and RBAC in Go
+# Fire-Go-Auth: Setting up Firebase authentication and RBAC in Go
 
 ![Fire-Go](fire-go.png)
 
@@ -26,7 +26,7 @@ To get started with this project, follow these steps:
 
 1. **Clone the git repo**: 
 ``` yaml
-git clone https://github.com/Cprime50/Fire-Go
+git clone https://github.com/Cprime50/fire-go-auth.git
 ```
 
 2. **Set Up Firebase Project**: Create a new Firebase project or use an existing one in your [firebase console](https://console.firebase.google.com)
