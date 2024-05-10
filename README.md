@@ -19,7 +19,6 @@ I recommend checking out this article for a detailed walkthrough of the setup pr
 
 
 
-
 ## Getting Started
 
 To get started with this project, follow these steps:
@@ -41,7 +40,8 @@ go mod tidy
    - Navigate to the Firebase Console, under project settings, service accounts and download your project's private key.
    - For security, store this key in a `.env` file.
 
-7. **Create .env file**:**Create a `.env` File**:
+
+7. **Create a `.env` File**:
    - In the root directory of the project, create a `.env` file.
    - Add the following details to the `.env` file:
 
@@ -57,10 +57,13 @@ Replace `youremail@mail.com` with your `admin email`, and `path/to/your_private_
 
 - **Admin Email**: This email will be set as the default admin when authenticated
 
-8. **Configure Your Client Application And Make a Request To The Server**
+
+8. **Configure Your Client Application And Make a Request To The Server:**
 Setup your client to use firebase to authenticate users
 
 After a user is authenticated, you send their access token to the server to authenticate each request. This is typically done by including the ID token in the Authorization header of your HTTP requests.
+
+
 
 example:
 ``` javascript
