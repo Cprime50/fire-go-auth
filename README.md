@@ -57,17 +57,18 @@ Replace `youremail@mail.com` with your `admin email`, and `path/to/your_private_
 
 - **Admin Email**: This email will be set as the default admin when authenticated
 
-#### Configure Your Client Application And Make a Request To The Server
+8. **Configure Your Client Application And Make a Request To The Server**
 Setup your client to use firebase to authenticate users
 
-After a user is authenticated, you send their ID token to the server to authenticate each request. This is typically done by including the ID token in the Authorization header of your HTTP requests.
+After a user is authenticated, you send their access token to the server to authenticate each request. This is typically done by including the ID token in the Authorization header of your HTTP requests.
 
+example:
 ``` javascript
-function sendIdTokenToServer(idToken) {
-    fetch('/api/protected-endpoint', {
+function sendTokenToServer(accessToken) {
+    fetch('localhost:3000/user', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer ' + idToken
+            'Authorization': 'Bearer ' + accessToken
         }
     }).then(response => {
     }).catch(error => {
@@ -76,6 +77,7 @@ function sendIdTokenToServer(idToken) {
 }
 ```
 
+![example response](response.png)
 
 ## Contributing
 

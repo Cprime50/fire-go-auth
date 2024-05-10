@@ -52,6 +52,9 @@ func loadEnv() {
 }
 
 func RegisterRoutes(r *gin.Engine, client *auth.Client) {
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "fire-go-auth success")
+	})
 	r.GET("/user", middleware.Auth(client), func(c *gin.Context) {
 		user, ok := c.Get("user")
 		if !ok {
