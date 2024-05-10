@@ -2,13 +2,14 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"firebase.google.com/go/v4/auth"
 
-	"github.com/cprime50/fire-go/role"
+	"github.com/cprime50/fire-go-auth/role"
 
-	"github.com/cprime50/fire-go/middleware"
+	"github.com/cprime50/fire-go-auth/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -51,7 +52,15 @@ func loadEnv() {
 }
 
 func RegisterRoutes(r *gin.Engine, client *auth.Client) {
-
+	r.GET("/user", middleware.Auth(client), func(c *gin.Context) {
+		user, ok := c.Get("user")
+		if !ok {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "User details not found"})
+			return
+		}
+		userDetails := user.(*middleware.User)
+		c.JSON(http.StatusOK, userDetails)
+	})
 }
 
 // Admin routes
@@ -61,6 +70,9 @@ func RegisterAdminRoutes(r *gin.Engine, client *auth.Client) {
 	adminRoutes := r.Group("/admin")
 	adminRoutes.Use(middleware.Auth(client), middleware.RoleAuth("admin"))
 	{
+		adminRoutes.GET("/", func(ctx *gin.Context) {
+			ctx.String(http.StatusOK, "admin")
+		})
 		adminRoutes.POST("/make", func(ctx *gin.Context) {
 			role.MakeAdminHandler(ctx, adminService)
 		})

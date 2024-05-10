@@ -1,4 +1,4 @@
-module github.com/cprime50/fire-go
+module github.com/cprime50/fire-go-auth
 
 go 1.21.4
 

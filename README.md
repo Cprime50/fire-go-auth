@@ -4,38 +4,20 @@
 
 ## Overview
 
-Fire-Go is an example application of how to create simple, high-performance applications that are both easy to develop and maintainable in the long run.
-   
-   - KISS (Keep it simple stupid)
-   - Modular monolith architecture
-   - REST
-   - Go and Gin framework.
-   - Sqlite3.
-   - Firebase auth
-   - RBAC with firebase
-   - Gin-swagger documentation
-   [local](http://localhost:3000/swagger/api/index.html)
-
-## Articles
-
-As I work on this project, I'll be sharing articles along the way.
-
-1. [Building Simple Modern Go apps](https://medium.com/@charlesdpj78/building-simple-modern-go-apps-kiss-pattern-with-go-firebase-sqlite-3b6803ddcba4)
+Authentication is really important for any app that wants to keep users data safe. Security and the protection of users' information is utmost priority. There are different methods for handling authentication, but for this particular case, we'll be focusing  on using a third-party identity platform.
 
 
-## Currently working on
-This project is still a work in progress, I am working on the following features:
-- Writing unit Tests
-- Docker deployment
-- Github Actions
-- Deploy on Aws
-- OpenApi Documentation with [huma](https://huma.rocks/)
-- Kubernetes
-- Teraform
-- Client with nextjs
+The authentication process is quite simple. When a user tries to sign in, the client (web or mobile) sends a request to the Firebase server. the firebase server returns an id_token. In this case, the token is configured to be JWT. Theid_token is used by the client to know if a user is authenticated. The id_token is also used to authenticate API calls made to backend APIs. We use the authentication flow here.
 
-<!-- ## Article
-This article gives a very detailed guide on this application -->
+![authentication flow](flow.png)
+
+## Article
+I recommend checking out this article for a detailed walkthrough of the setup process. It has everything you need to know to understand and implement each step effectively.
+
+[Setting up Firebase authentication and RBAC in Go](https://medium.com/@charlesdpj78/building-simple-modern-go-apps-kiss-pattern-with-go-firebase-sqlite-3b6803ddcba4)
+
+
+
 
 
 ## Getting Started
@@ -75,6 +57,24 @@ Replace `youremail@mail.com` with your `admin email`, and `path/to/your_private_
 
 - **Admin Email**: This email will be set as the default admin when authenticated
 
+#### Configure Your Client Application And Make a Request To The Server
+Setup your client to use firebase to authenticate users
+
+After a user is authenticated, you send their ID token to the server to authenticate each request. This is typically done by including the ID token in the Authorization header of your HTTP requests.
+
+``` javascript
+function sendIdTokenToServer(idToken) {
+    fetch('/api/protected-endpoint', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + idToken
+        }
+    }).then(response => {
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+```
 
 
 ## Contributing

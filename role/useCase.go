@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"firebase.google.com/go/v4/auth"
-	"github.com/cprime50/fire-go/middleware"
+	"github.com/cprime50/fire-go-auth/middleware"
 )
 
 type AdminService interface {
