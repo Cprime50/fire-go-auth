@@ -4,10 +4,9 @@
 
 ## Overview
 
-Authentication is really important for any app that wants to keep users data safe. Security and the protection of users' information is utmost priority. There are different methods for handling authentication, but for this particular case, we'll be focusing  on using a third-party identity platform.
+Authentication is really important for any app that wants to keep users data safe. Security and the protection of users' information is utmost priority. There are different methods for handling authentication, but for this particular case, we'll be focusing  on using a third-party identity platform, Firebase.
+It is very quick to set up, works out of the box, and has a very generous free teir that we can leverage.
 
-
-The authentication process is quite simple. When a user tries to sign in, the client (web or mobile) sends a request to the Firebase server. the firebase server returns an id_token. In this case, the token is configured to be JWT. Theid_token is used by the client to know if a user is authenticated. The id_token is also used to authenticate API calls made to backend APIs. We use the authentication flow here.
 
 ![authentication flow](flow.png)
 
