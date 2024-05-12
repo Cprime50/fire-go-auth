@@ -30,6 +30,7 @@ func (s *AdminServiceImpl) MakeAdmin(email string) error {
 }
 
 func (s *AdminServiceImpl) RemoveAdmin(email string) error {
+
 	if err := middleware.AssignRole(context.Background(), s.client, email, "user"); err != nil {
 		log.Printf("Error assigning user role: %v", err)
 		return err

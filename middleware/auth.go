@@ -61,20 +61,25 @@ func processToken(ctx *gin.Context, client *auth.Client, token *auth.Token) {
 	log.Println("auth email is ", email)
 
 	role, ok := token.Claims["role"].(string)
-	if email == adminEmail && role == "user" || !ok {
+
+	if email == adminEmail && role == "user" {
+		startTime := time.Now()
 		if err := AssignRole(ctx, client, adminEmail, "admin"); err != nil {
 			log.Printf("Error assigning admin role to %s: %v\n", adminEmail, err)
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong"})
 			return
 		}
+		log.Println("Admin role assigned in:", time.Since(startTime))
 		role = "admin"
 	}
 	if !ok {
-		if err := AssignRole(ctx, client, token.UID, "user"); err != nil {
-			log.Printf("Error assigning user role to %s: %v\n", token.UID, err)
+		startTime := time.Now()
+		if err := AssignRole(ctx, client, email, "user"); err != nil {
+			log.Printf("Error assigning user role to %s: %v\n", email, err)
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong"})
 			return
 		}
+		log.Println("User role assigned in:", time.Since(startTime))
 		role = "user"
 	}
 

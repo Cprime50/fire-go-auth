@@ -5,9 +5,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
+
+	"errors"
 
 	"firebase.google.com/go/v4/auth"
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	ErrUserNotFound = errors.New("User not found")
 )
 
 func RoleAuth(requiredRole string) gin.HandlerFunc {
@@ -45,24 +52,23 @@ func RoleAuth(requiredRole string) gin.HandlerFunc {
 }
 
 func AssignRole(ctx context.Context, client *auth.Client, email string, role string) error {
+	startTime := time.Now()
+	defer func() {
+		log.Println("Role assigned in:", time.Since(startTime))
+	}()
 	user, err := client.GetUserByEmail(ctx, email)
 	if err != nil {
 		return err
 	}
 	if user == nil {
-		return fmt.Errorf("AssignRole Error: User with email %s not found", email)
+		log.Printf("Assign Error: User with email %s not found", email)
+		return ErrUserNotFound
 	}
 	currentCustomClaims := user.CustomClaims
 	if currentCustomClaims == nil {
 		currentCustomClaims = map[string]interface{}{}
 	}
 	currentCustomClaims["role"] = role
-	if role == "admin" {
-		currentCustomClaims["admin"] = true
-	}
-	if role == "user" {
-		currentCustomClaims["user"] = true
-	}
 	if err := client.SetCustomUserClaims(ctx, user.UID, currentCustomClaims); err != nil {
 		return fmt.Errorf("AssignRole Error: Error setting custom claims: %w", err)
 	}
